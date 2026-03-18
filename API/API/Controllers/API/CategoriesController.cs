@@ -92,15 +92,39 @@ namespace API.Controllers.API {
          return NoContent();
       }
 
+
+
+
+
       // POST: api/Categories
       // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
       [HttpPost]
-      public async Task<ActionResult<Category>> PostCategory(Category category) {
-         _context.Categories.Add(category);
-         await _context.SaveChangesAsync();
+      public async Task<ActionResult<CategorySimplerDTO>> PostCategory(CategorySimplerDTO nomeCategoria) {
+         
+         Category category = new() {
+            Name = nomeCategoria.Name
+         };
+
+         try {
+            _context.Categories.Add(category);
+            await _context.SaveChangesAsync();
+         }
+         catch(Exception) {
+            //throw;
+            /* use 'throw' ONLY in development environment
+             * NEVER, NEVER in 'production', 
+             * because it expose too much data related with your program
+             */
+            return BadRequest();
+         }
+
 
          return CreatedAtAction("GetCategory", new { id = category.Id }, category);
       }
+
+
+
+
 
       // DELETE: api/Categories/5
       [HttpDelete("{id}")]
