@@ -35,6 +35,7 @@ namespace API.Controllers.API {
                                  Id = c.Id,
                                  Name = c.Name
                               })
+                              .OrderBy(c=>c.Name)
                               .ToListAsync();
       }
 
